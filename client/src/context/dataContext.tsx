@@ -2,7 +2,7 @@ import { createContext, FC, ReactNode, useCallback, useState } from 'react'
 import { useFetchItems } from '../hooks/useFetchItems'
 import { useQuery } from '../hooks/useQuery'
 
-type TDataContext = {
+export type DataContext = {
   loading: boolean
   error: ItemsError
   data: ItemsResponse | null
@@ -13,7 +13,7 @@ type TDataContext = {
   ) => void
 }
 
-export const DataContext = createContext<TDataContext>(null!)
+export const DataContext = createContext<DataContext>(null!)
 
 type Props = {
   children: ReactNode
