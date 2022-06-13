@@ -19,15 +19,14 @@ app.use(function(req, res, next) {
 });
 
 app.post('/', (async (request, response) => {
-  console.log({ request })
-  response.end()
-  // if (data) {
-  //   const requestObject = JSON.parse(data)
-  //   result = await getCities(requestObject)
-  // } else {
-  //   result = await getCities()
-  // }
-  // response.write(JSON.stringify(result));
+  const params = request.body
+  let result;
+  if (params && Object.entries(params).some(([_, value]) => value)) {
+    result = await getCities(params)
+  } else {
+    result = await getCities()
+  }
+  response.json(result);
 }))
 
 app.listen(port, () => {
