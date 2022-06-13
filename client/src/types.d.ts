@@ -7,6 +7,7 @@ type OneOf<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<
   : never
 
 type City = {
+  id: number,
   name: string
   date: number
   count: number
@@ -22,9 +23,8 @@ type RequestParams = {
 }
 
 type ItemsResponse = {
-  items: City[]
+  cities: City[]
   totalCount: number
-  currentPage: number
 }
 
 type ItemsError = Error | null

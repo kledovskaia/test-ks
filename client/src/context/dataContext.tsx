@@ -22,8 +22,7 @@ type Props = {
 }
 
 export const DataContextProvider: FC<Props> = ({ children }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log({ searchParams })
+  const [ , setSearchParams] = useSearchParams();
   const queries = useQuery()
   const [state, setState] = useState<RequestParams>({
     ...queries,

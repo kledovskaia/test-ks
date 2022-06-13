@@ -13,49 +13,51 @@ const columnToEn = {
   'расстояние': 'distance',
 }
 
-export const getCities = async ({ limit = 10, order, field, page = 0, search }) => {
+export const getCities = async ({ limit = 10, order, field, page = 0, search } = {}) => {
   let result = {};
   const query = (await pool.query('SELECT * FROM cities ORDER BY id ASC'))
   result.cities = query.rows
   
-  if (order === 'больше' || order === 'меньше') {
-    result.cities = result.cities.sort((a, b) => {
-      const aVal = a[columnToEn[field]]
-      const bVal = b[columnToEn[field]]
-      if (order === 'меньше') {
-        return aVal > bVal ? 1 : aVal < bVal ? -1 : 0
-      } else {
-        return bVal > aVal ? 1 : bVal < aVal ? -1 : 0
+  if (field && order) {
+    if (order === 'больше' || order === 'меньше') {
+      result.cities = result.cities.sort((a, b) => {
+        const aVal = a[columnToEn[field]]
+        const bVal = b[columnToEn[field]]
+        if (order === 'меньше') {
+          return aVal > bVal ? 1 : aVal < bVal ? -1 : 0
+        } else {
+          return bVal > aVal ? 1 : bVal < aVal ? -1 : 0
+        }
+      })
+      if (search) {
+        if (order === 'меньше') {
+          const targetIndex = result.cities.findIndex(el => {
+            let value = el[columnToEn[field]]
+            if (columnToEn[field] !== 'name') {
+              value = +value
+              search = +search
+            }
+            return value > search
+          })
+          result.cities = result.cities.slice(0, targetIndex)
+        } else {
+          const targetIndex = result.cities.findIndex(el => {
+            let value = el[columnToEn[field]]
+            if (columnToEn[field] !== 'name') {
+              value = +value
+              search = +search
+            }
+            return value < search
+          })
+          result.cities = result.cities.slice(0, targetIndex)
+        }
       }
-    })
-    if (search) {
-      if (order === 'меньше') {
-        const targetIndex = result.cities.findIndex(el => {
-          let value = el[columnToEn[field]]
-          if (columnToEn[field] !== 'name') {
-            value = +value
-            search = +search
-          }
-          return value > search
-        })
-        result.cities = result.cities.slice(0, targetIndex)
-      } else {
-        const targetIndex = result.cities.findIndex(el => {
-          let value = el[columnToEn[field]]
-          if (columnToEn[field] !== 'name') {
-            value = +value
-            search = +search
-          }
-          return value < search
-        })
-        result.cities = result.cities.slice(0, targetIndex)
+    } else {
+      if (order === 'равно') {
+        result.cities = result.cities.filter(el => el[columnToEn[field]].toString() === (search || '').toString())
+      } else if (order === 'содержит') {
+        result.cities = result.cities.filter(el => el[columnToEn[field]].toString().includes((search || '').toString()))
       }
-    }
-  } else {
-    if (order === 'равно') {
-      result.cities = result.cities.filter(el => el[columnToEn[field]].toString() === search.toString())
-    } else if (order === 'содержит') {
-      result.cities = result.cities.filter(el => el[columnToEn[field]].toString().toLowerCase().includes(search.toString().toLowerCase()))
     }
   }
 

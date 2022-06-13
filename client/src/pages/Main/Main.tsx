@@ -10,7 +10,7 @@ import { useCallback } from 'react'
 type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
 export const Main: FC<Props> = ({ className, ...props }) => {
-  const { state, updateState } = useContext(DataContext)
+  const { state, updateState, data } = useContext(DataContext)
 
   const updatePage = useCallback((page: typeof state['page']) => {
     updateState('page', page)
@@ -21,13 +21,19 @@ export const Main: FC<Props> = ({ className, ...props }) => {
       <Controls 
         state={state} 
         updateState={updateState} 
-      />
-      <Table />
-      <Pagination 
-        page={state.page}
-        totalPages={10}
-        updatePage={updatePage}
-      />
+        />
+      {
+        data && (
+        <>
+          <Table items={data.cities}/>
+          <Pagination 
+            page={state.page}
+            totalPages={Math.ceil(data.totalCount / (state.limit || 10))}
+            updatePage={updatePage}
+          />
+        </>
+        )
+      }
     </div>
   )
 }
