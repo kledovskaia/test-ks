@@ -12,8 +12,14 @@ const pool = new pg.Pool({
   }
 })
 
+export const getCount = () => {
+  pool.query('SELECT *, (SELECT COUNT(*) FROM cities) AS TotalNbRows FROM cities', (error, result) => {
+    console.log({ rowCount: result.rowCount })
+  })
+}
 // SELECT * FROM items WHERE id = $1
 export const getCities = (request, response) => {
+  getCount()
   pool.query('SELECT * FROM cities ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
@@ -21,6 +27,7 @@ export const getCities = (request, response) => {
     response.status(200).json(results.rows)
   })
 }
+
 
 export const createCity = (data) => {
   const { date, name, count, distance } = data
@@ -31,6 +38,6 @@ export const createCity = (data) => {
       if (error) {
         throw error
       }
-      response.status(201).send(`City added with ID: ${results.rows[0].id}`)
+      console.log(`City added with ID: ${results.rows[0].id}`)
     })
 }

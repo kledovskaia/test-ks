@@ -17,16 +17,6 @@ const initDb = async (cities) => {
 const sleep = async () => setTimeout(() => {}, 300)
 
 initDb([
-    "Aberdeen",
-    "Abilene",
-    "Akron",
-    "Albany",
-    "Albuquerque",
-    "Alexandria",
-    "Allentown",
-    "Amarillo",
-    "Anaheim",
-    "Anchorage",
     "Ann Arbor",
     "Antioch",
     "Apple Valley",
