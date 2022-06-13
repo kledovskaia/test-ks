@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run checkTs
+npm run stylelint:fix
+npx lint-staged
