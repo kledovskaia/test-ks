@@ -2,7 +2,7 @@ import { createContext, FC, ReactNode, useCallback, useState } from "react"
 import { useFetchItems } from "../hooks/useFetchItems"
 import { useQuery } from "../hooks/useQuery"
 
-type DataContext = { 
+type TDataContext = { 
   loading: boolean; 
   error: ItemsError; 
   data: ItemsResponse | null; 
@@ -10,17 +10,16 @@ type DataContext = {
   updateState: (field: keyof RequestParams, value: ValueOf<RequestParams>) => void; 
 }
 
-const DataContext = createContext<DataContext>(null!)
+const DataContext = createContext<TDataContext>(null!)
 
 type Props = {
   children: ReactNode
 }
 
 export const DataContextProvider: FC<Props> = ({ children }) => {
-  const query = useQuery()
+  const queries = useQuery()
   const [state, setState] = useState<RequestParams>({
-    limit: 10,
-    pageNumber: 0,
+    ...queries
   })
   const { error, loading, data } = useFetchItems(state)
 

@@ -1,5 +1,8 @@
 type KeyOf<T> = keyof T;
 type ValueOf<T> = T[KeyOf<T>];
+type OneOf<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType> ? ElementType : never;
+
+
 
 type City = {
     name: string,
@@ -9,10 +12,10 @@ type City = {
 }
 
 type RequestParams = {
-    sortField?: Exclude<keyof City, 'date'>,
-    sortOrder?: string,
+    field?: Exclude<keyof City, 'date'>,
+    order?: string,
     search?: string,
-    pageNumber?: number,
+    page?: number,
     limit?: number,
 }
 

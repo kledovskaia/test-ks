@@ -10,10 +10,10 @@ type UseFetchItems = (obj: RequestParams) => {
 const url = process.env.REACT_APP_API
 
 export const useFetchItems: UseFetchItems = ({ 
-    pageNumber,
+    page,
     limit,
-    sortField,
-    sortOrder,
+    field,
+    order,
     search,
 }) => {
     const [error, setError] = useState<Error | null>(null)
@@ -26,10 +26,10 @@ export const useFetchItems: UseFetchItems = ({
         setLoading(true)
         try {
             const { data } = await axios.post<ItemsResponse>(url, {
-                pageNumber,
+                page,
                 limit,
-                sortField,
-                sortOrder,
+                field,
+                order,
                 search,
             })
             setData(data)
@@ -39,10 +39,10 @@ export const useFetchItems: UseFetchItems = ({
             setLoading(false)
         }
     }, [
-        pageNumber,
+        page,
         limit,
-        sortField,
-        sortOrder,
+        field,
+        order,
         search,
     ])
 
