@@ -9,7 +9,13 @@ type UseFetchItems = (obj: RequestParams) => {
 
 const url = process.env.REACT_APP_API
 
-export const useFetchItems: UseFetchItems = ({ sortBy, filterBy, pageNumber, limit }) => {
+export const useFetchItems: UseFetchItems = ({ 
+    pageNumber,
+    limit,
+    sortField,
+    sortOrder,
+    search,
+}) => {
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState<ItemsResponse | null>(null)
@@ -20,10 +26,11 @@ export const useFetchItems: UseFetchItems = ({ sortBy, filterBy, pageNumber, lim
         setLoading(true)
         try {
             const { data } = await axios.post<ItemsResponse>(url, {
-                sortBy,
-                filterBy,
                 pageNumber,
-                limit
+                limit,
+                sortField,
+                sortOrder,
+                search,
             })
             setData(data)
         } catch (error) {
@@ -32,10 +39,11 @@ export const useFetchItems: UseFetchItems = ({ sortBy, filterBy, pageNumber, lim
             setLoading(false)
         }
     }, [
-        sortBy,
-        filterBy,
         pageNumber,
         limit,
+        sortField,
+        sortOrder,
+        search,
     ])
 
     useEffect(() => {
