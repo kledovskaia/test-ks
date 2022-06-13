@@ -9,8 +9,8 @@ const root = createRoot(container);
 
 root.render(
   <StrictMode>
-    <Provider store={store}>
+    {/* <Provider store={store}> */}
       <App />
-    </Provider>
+    {/* </Provider> */}
   </StrictMode>
 );
