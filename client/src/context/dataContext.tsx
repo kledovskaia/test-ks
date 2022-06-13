@@ -1,40 +1,40 @@
-import { createContext, FC, ReactNode, useCallback, useState } from "react";
-import { useFetchItems } from "../hooks/useFetchItems";
-import { useQuery } from "../hooks/useQuery";
+import { createContext, FC, ReactNode, useCallback, useState } from 'react'
+import { useFetchItems } from '../hooks/useFetchItems'
+import { useQuery } from '../hooks/useQuery'
 
 type TDataContext = {
-  loading: boolean;
-  error: ItemsError;
-  data: ItemsResponse | null;
-  state: RequestParams;
+  loading: boolean
+  error: ItemsError
+  data: ItemsResponse | null
+  state: RequestParams
   updateState: (
     field: keyof RequestParams,
-    value: ValueOf<RequestParams>
-  ) => void;
-};
+    value: ValueOf<RequestParams>,
+  ) => void
+}
 
-export const DataContext = createContext<TDataContext>(null!);
+export const DataContext = createContext<TDataContext>(null!)
 
 type Props = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export const DataContextProvider: FC<Props> = ({ children }) => {
-  const queries = useQuery();
+  const queries = useQuery()
   const [state, setState] = useState<RequestParams>({
     ...queries,
-  });
-  const { error, loading, data } = useFetchItems(state);
+  })
+  const { error, loading, data } = useFetchItems(state)
 
   const updateState = useCallback(
     (field: KeyOf<typeof state>, value: ValueOf<typeof state>) => {
-      setState((state) => ({
+      setState(state => ({
         ...state,
         [field]: value,
-      }));
+      }))
     },
-    []
-  );
+    [],
+  )
 
   return (
     <DataContext.Provider
@@ -48,5 +48,5 @@ export const DataContextProvider: FC<Props> = ({ children }) => {
     >
       {children}
     </DataContext.Provider>
-  );
-};
+  )
+}
