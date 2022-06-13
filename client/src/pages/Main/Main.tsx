@@ -2,8 +2,8 @@ import { DetailedHTMLProps, FC, HTMLAttributes } from "react";
 import cn from "classnames";
 import Controls from "../../components/Controls/Controls";
 import Table from "../../components/Table/Table";
-import styles from "./Main.module.scss";
 import Pagination from "../../components/Pagination/Pagination";
+import styles from "./Main.module.scss";
 
 type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
