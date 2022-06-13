@@ -1,9 +1,13 @@
-import { DetailedHTMLProps, FC, HTMLAttributes, memo } from 'react'
+import { ChangeEvent, DetailedHTMLProps, FC, HTMLAttributes, memo } from 'react'
 import cn from 'classnames'
 import Input from '../Input/Input'
 import styles from './Search.module.scss'
 
-type Props = DetailedHTMLProps<
+type Props = {
+  name: string,
+  value: string,
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+} & DetailedHTMLProps<
   HTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >
