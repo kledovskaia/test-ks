@@ -1,9 +1,8 @@
-import { DetailedHTMLProps, FC, HTMLAttributes, memo, useCallback } from 'react'
+import { DetailedHTMLProps, FC, HTMLAttributes, memo, MouseEvent, useCallback } from 'react'
 import cn from 'classnames'
 import styles from './Pagination.module.scss'
 import { DataContext } from '../../context/dataContext'
 import Button from '../Button/Button'
-import { useState } from 'react'
 import { useMemo } from 'react'
 
 type Props = {
@@ -25,11 +24,18 @@ const Pagination: FC<Props> = ({ page, totalPages, updatePage, className, ...pro
     updatePage(currentPage - 1)
   }, [currentPage, updatePage])
 
+  const handlePageChange = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const target = event.target as HTMLButtonElement;
+    const targetPage = +target.id
+    if (currentPage === targetPage) return;
+    updatePage(targetPage)
+  }, [currentPage])
+
   return (
     <div className={cn(className, styles.pagination)} {...props}>
       <Button onClick={previousPage}>Previous</Button>
       <div>
-        {new Array(totalPages).fill(0).map((_, i) => <Button key={i} onClick={() => updatePage(i)}>{i + 1}</Button>)}
+        {new Array(totalPages).fill(0).map((_, i) => <Button key={i} id={i.toString()} onClick={handlePageChange}>{i + 1}</Button>)}
       </div>
       <Button onClick={nextPage}>Next</Button>
     </div>
