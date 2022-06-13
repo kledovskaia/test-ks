@@ -13,7 +13,7 @@ type TDataContext = {
   ) => void;
 };
 
-const DataContext = createContext<TDataContext>(null!);
+export const DataContext = createContext<TDataContext>(null!);
 
 type Props = {
   children: ReactNode;
