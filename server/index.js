@@ -1,27 +1,35 @@
 import { getCities } from './queries.js'
-import http from 'http'
+import bodyParser from 'body-parser'
+import express from 'express'
+import cors from 'cors'
 import dotenv from 'dotenv';
 dotenv.config();
 
 const port = process.env.PORT || 3000
 
-const httpServer = http.createServer(async (request, response) => {
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-  response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+const app = express();
+app.use(cors());
+app.options('*', cors());
+app.use(bodyParser.json())
 
-  const buffers = [];
-  for await (const chunk of request) {
-    buffers.push(chunk);
-  }
-  const data = Buffer.concat(buffers).toString();
-  if (data) {
-    const requestObject = JSON.parse(data)
-    console.log({ requestObject })
-  } else {
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
-  }
-  response.end();
+app.post('/', (async (request, response) => {
+  console.log({ request })
+  response.end()
+  // if (data) {
+  //   const requestObject = JSON.parse(data)
+  //   result = await getCities(requestObject)
+  // } else {
+  //   result = await getCities()
+  // }
+  // response.write(JSON.stringify(result));
+}))
+
+app.listen(port, () => {
+  console.log(`app listening on port ${port}`)
 })
-
-httpServer.listen(port, () => console.log(`App is listening on port ${port}`))

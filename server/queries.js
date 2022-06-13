@@ -12,8 +12,15 @@ export const getCount = () => {
     console.log({ rowCount: result.rowCount })
   })
 }
+
+const columnToEn = {
+  'название': 'name',
+  'количество': 'count',
+  'расстояние': 'distance',
+}
+
 // SELECT * FROM items WHERE id = $1
-export const getCities = (request, response) => {
+export const getCities = async (requestParams) => {
   getCount()
   pool.query('SELECT * FROM cities ORDER BY id ASC', (error, results) => {
     if (error) {
