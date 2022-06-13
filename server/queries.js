@@ -56,7 +56,7 @@ export const getCities = async ({ limit = 10, order, field, page = 0, search } =
       if (order === 'равно') {
         result.cities = result.cities.filter(el => el[columnToEn[field]].toString() === (search || '').toString())
       } else if (order === 'содержит') {
-        result.cities = result.cities.filter(el => el[columnToEn[field]].toString().includes((search || '').toString()))
+        result.cities = result.cities.filter(el => el[columnToEn[field]].toString().toLowerCase().includes((search || '').toString().toLowerCase()))
       }
     }
   }

@@ -1,10 +1,13 @@
 .loader {
-  position: relative;
-  width: 120px;
-  height: 16px;
-  color: #514b82;
+  position: absolute;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12rem;
+  height: 1.6rem;
+  color: #4caf50;
   border: 2px solid;
-  border-radius: 40px;
+  border-radius: 4rem;
 }
 
 .loader::before {
@@ -13,7 +16,7 @@
   bottom: 0;
   left: 0;
   width: 25%;
-  margin: 2px;
+  margin: 0.2rem;
   content: "";
   background: currentColor;
   border-radius: inherit;

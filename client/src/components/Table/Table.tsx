@@ -4,25 +4,37 @@ import styles from './Table.module.scss'
 
 type Props = {
   items: City[]
-} & DetailedHTMLProps<
-  HTMLAttributes<HTMLTableElement>,
-  HTMLTableElement
->
+} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
 const Table: FC<Props> = ({ items, className, ...props }) => {
   return (
-    <table className={cn(className, styles.table)} {...props}>
+    <div  className={cn(className, styles.tableContainer)} {...props}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Дата</th>
+            <th>Название</th>
+            <th>Количество</th>
+            <th>Расстояние</th>
+          </tr>
+        </thead>
       <tbody>
-        { items.map(item => (
+        {items.map(item => (
           <tr key={item.id}>
-            <td>{item.date}</td>
+            <td>{
+              <>
+                <div>{new Date(item.date).toLocaleTimeString()}</div>
+                <div>{new Date(item.date).toLocaleDateString()}</div>
+              </>  
+            }</td>
             <td>{item.name}</td>
             <td>{item.count}</td>
             <td>{item.distance}</td>
           </tr>
-        )) }
+        ))}
       </tbody>
     </table>
+    </div>
   )
 }
 

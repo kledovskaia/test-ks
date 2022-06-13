@@ -12,28 +12,26 @@ type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 export const Main: FC<Props> = ({ className, ...props }) => {
   const { state, updateState, data } = useContext(DataContext)
 
-  const updatePage = useCallback((page: typeof state['page']) => {
-    updateState('page', page)
-  }, [updateState])
+  const updatePage = useCallback(
+    (page: typeof state['page']) => {
+      updateState('page', page)
+    },
+    [updateState],
+  )
 
   return (
     <div className={cn(className, styles.main)} {...props}>
-      <Controls 
-        state={state} 
-        updateState={updateState} 
-        />
-      {
-        data && (
+      <Controls state={state} updateState={updateState} />
+      {data && (
         <>
-          <Table items={data.cities}/>
-          <Pagination 
+          <Table items={data.cities} />
+          <Pagination
             page={state.page}
             totalPages={Math.ceil(data.totalCount / (state.limit || 10))}
             updatePage={updatePage}
           />
         </>
-        )
-      }
+      )}
     </div>
   )
 }

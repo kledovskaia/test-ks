@@ -3,11 +3,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const initDb = async (cities) => {
-    for (const city of cities) {
+    const filteredCities = cities.filter((_, i) => !(i % 5))
+    for (const city of filteredCities) {
         await sleep()
         createCity({
             name: city,
-            date: Date.now() + Math.floor(Math.random() * 10000000),
+            date: new Date(),
             count: Math.floor(Math.random() * 5000),
             distance: Math.floor(Math.random() * 500),
         })

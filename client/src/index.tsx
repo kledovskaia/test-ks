@@ -4,6 +4,7 @@ import App from './App'
 import Error from './components/Error/Error'
 import Loader from './components/Loader/Loader'
 import { DataContextProvider } from './context/dataContext'
+import './index.scss'
 
 const container = document.getElementById('root')!
 const root = createRoot(container)

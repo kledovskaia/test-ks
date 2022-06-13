@@ -7,7 +7,7 @@ type OneOf<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<
   : never
 
 type City = {
-  id: number,
+  id: number
   name: string
   date: number
   count: number

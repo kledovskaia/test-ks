@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { createContext, FC, ReactNode, useCallback, useState } from 'react'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useFetchItems } from '../hooks/useFetchItems'
 import { useQuery } from '../hooks/useQuery'
 
@@ -22,10 +22,11 @@ type Props = {
 }
 
 export const DataContextProvider: FC<Props> = ({ children }) => {
-  const [ , setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams()
   const queries = useQuery()
   const [state, setState] = useState<RequestParams>({
     ...queries,
+    page: +queries.page || 0,
   })
   const { error, loading, data } = useFetchItems(state)
 
@@ -34,15 +35,18 @@ export const DataContextProvider: FC<Props> = ({ children }) => {
       setState(state => ({
         ...state,
         [field]: value,
+        ...(field === 'search' && { page: 0 }),
       }))
     },
     [],
   )
 
   useEffect(() => {
-    const filteredState = Object.fromEntries(Object.entries(state).filter(([key, value]) => value))
+    const filteredState = Object.fromEntries(
+      Object.entries(state).filter(([_, value]) => value),
+    )
     setSearchParams(filteredState as {}, { replace: true })
-  }, [state])
+  }, [state, setSearchParams])
 
   return (
     <DataContext.Provider

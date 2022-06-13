@@ -16,7 +16,7 @@ export const selectQueries: SelectQueries = (
   return targetNames.reduce(
     (obj, name) => ({
       ...obj,
-      [name]: searchParams.get(name) || undefined,
+      [name]: searchParams.get(name) ?? undefined,
     }),
     {},
   )

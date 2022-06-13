@@ -4,13 +4,10 @@ import Input from '../Input/Input'
 import styles from './Search.module.scss'
 
 type Props = {
-  name: string,
-  value: string,
+  name: string
+  value: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-} & DetailedHTMLProps<
-  HTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->
+} & DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 const Search: FC<Props> = ({ className, ...props }) => {
   return <Input className={cn(className, styles.search)} {...props} />
