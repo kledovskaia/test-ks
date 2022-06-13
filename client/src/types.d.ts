@@ -1,3 +1,6 @@
+type KeyOf<T> = keyof T;
+type ValueOf<T> = T[KeyOf<T>];
+
 type City = {
     name: string,
     date: number,
@@ -6,8 +9,9 @@ type City = {
 }
 
 type RequestParams = {
-    sortBy?: Exclude<keyof City, 'date'>,
-    filterBy?: string,
+    sortField?: Exclude<keyof City, 'date'>,
+    sortOrder?: string,
+    search?: string,
     pageNumber?: number,
     limit?: number,
 }

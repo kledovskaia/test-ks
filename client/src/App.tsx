@@ -1,30 +1,34 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useFetchItems } from "./hooks/useFetchCities";
+import { useCallback, useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useFetchItems } from "./hooks/useFetchItems";
+import { useQuery } from "./hooks/useQuery";
 
 const App = () => {
-  const [search, setSearch] = useState('');
-  
-  const { error, loading, data } = useFetchItems({
-    sortBy: 'name',
-    filterBy: search,
+  const query = useQuery()
+  console.log({ query })
+  const [state, setState] = useState<RequestParams>({
     limit: 10,
+    pageNumber: 0,
   })
+  const { error, loading, data } = useFetchItems(state)
 
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios.post('http://localhost:5572/', {
-        test1: 'test1',
-        test2: 'test2',
-        test3: 'test3',
-      })
-      console.log({ data })
-    }
-
-    getData()
+  const updateState = useCallback((
+      field: KeyOf<typeof state>, 
+      value: ValueOf<typeof state>
+    ) => {
+    setState((state) => ({
+      ...state,
+      [field]: value,
+    }))
   }, [])
 
-  return (<div>Hello World!</div>);
+  return (
+    <Routes>
+      <Route path="/" element={<Main />}/>
+      <Route path="*" element={<Navigate to="/"/>}/>
+    </Routes>
+  );
 }
 
 export default App;

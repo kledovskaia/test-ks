@@ -10,21 +10,27 @@ type UseFetchItems = (obj: RequestParams) => {
 const url = process.env.REACT_APP_API
 
 export const useFetchItems: UseFetchItems = ({ sortBy, filterBy, pageNumber, limit }) => {
-    const [error, setError] = useState(null)
+    const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState<ItemsResponse | null>(null)
 
     const fetchItems = useCallback(async () => {
-        if (!url) {
-            throw new Error(`url is ${url}`)
+        if (!url) return;
+        setError(null)
+        setLoading(true)
+        try {
+            const { data } = await axios.post<ItemsResponse>(url, {
+                sortBy,
+                filterBy,
+                pageNumber,
+                limit
+            })
+            setData(data)
+        } catch (error) {
+            setError(error as Error)
+        } finally {
+            setLoading(false)
         }
-        const { data } = await axios.post<ItemsResponse>(url, {
-            sortBy,
-            filterBy,
-            pageNumber,
-            limit
-        })
-        setData(data)
     }, [
         sortBy,
         filterBy,
@@ -33,8 +39,8 @@ export const useFetchItems: UseFetchItems = ({ sortBy, filterBy, pageNumber, lim
     ])
 
     useEffect(() => {
-
-    }, [])
+        fetchItems()
+    }, [fetchItems])
 
     return { error, loading, data }
 }
